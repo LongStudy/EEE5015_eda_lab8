@@ -10,7 +10,6 @@ module tb_multi_seq();
 
     wire done;
     wire [2*width-1:0]M;
-	wire stop;
 	 
    	always #10 clk = ~clk;
 	
@@ -27,7 +26,6 @@ module tb_multi_seq();
 		.A(A),
 		.B(B),
 		.done(done),
-		.stop(stop),
 		.M(M)
 
 	);
