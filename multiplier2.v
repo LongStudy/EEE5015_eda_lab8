@@ -3,7 +3,6 @@ module booth_mult#(parameter D_IN=8)(
      input clk,
 	 input rst_n,
 	 
-	 input start,
 	 input [D_IN-1:0]mul_A,
 	 input [D_IN-1:0]mul_B,
 	 
@@ -29,39 +28,38 @@ module booth_mult#(parameter D_IN=8)(
 			done <= 0;
 			Product<=0;
 		end
-		else if( start )
-			case( state )	
-				0: begin 
-					mult_A <= {{D_IN{mul_A[D_IN-1]}},mul_A}; 
-					inv_A <= ~{{D_IN{mul_A[D_IN-1]}},mul_A} + 1'b1 ; 
-					result_tmp <= 0; 
-					mult_B <= {mul_B,1'b0};
-					state <= state + 1'b1; 
-				end
-				1: begin
-					if(~stop) begin 
- 						case(booth_code)
-							2'b01 : result_tmp <= result_tmp + mult_A;
-							2'b10 : result_tmp <= result_tmp + inv_A;
-							default: result_tmp <= result_tmp;
-						endcase 
-						mult_A <= {mult_A[14:0],1'b0};
-						inv_A <=  {inv_A[14:0],1'b0};
-						mult_B <= {mult_B[8],mult_B[8:1]};
-					end
-					else 
-						state <= state + 1'b1;
-				end
-				2:begin
-					done<=1'b1;
-					Product<= result_tmp;
-					state <= state+1;
-				end
-				3: begin
-					done<=1'b0;
-					state<=0;
-				end
-			endcase
+        case( state )	
+            0: begin 
+                mult_A <= {{D_IN{mul_A[D_IN-1]}},mul_A}; 
+                inv_A <= ~{{D_IN{mul_A[D_IN-1]}},mul_A} + 1'b1 ; 
+                result_tmp <= 0; 
+                mult_B <= {mul_B,1'b0};
+                state <= state + 1'b1; 
+            end
+            1: begin
+                if(~stop) begin 
+                    case(booth_code)
+                        2'b01 : result_tmp <= result_tmp + mult_A;
+                        2'b10 : result_tmp <= result_tmp + inv_A;
+                        default: result_tmp <= result_tmp;
+                    endcase 
+                    mult_A <= {mult_A[14:0],1'b0};
+                    inv_A <=  {inv_A[14:0],1'b0};
+                    mult_B <= {mult_B[8],mult_B[8:1]};
+                end
+                else 
+                    state <= state + 1'b1;
+            end
+            2:begin
+                done<=1'b1;
+                Product<= result_tmp;
+                state <= state+1;
+            end
+            3: begin
+                done<=1'b0;
+                state<=0;
+            end
+        endcase
 endmodule
 
 
