@@ -48,28 +48,6 @@ module tb_multi_seq();
         end
     end
 
-  initial begin
-    		A = 0; B = 0; en = 0;
-    #200	A = 1; B = 1; en = 1;
-
-    #200	A = 1; B = -1; en = 1;
-
-    #200	A = -1; B = -1; en = 1;
-
-	#200	A = -10; B = -100; en = 1;
-
-	#200	A = 10; B = -5; en = 1;
-
-	#200	A = 5; B = 8; en = 1;
-
-	#200	A = -128; B = -128; en = 1;
-
-	#200	A = -128; B = 127; en = 1;
-
-	#200	A = 100; B = 127; en = 1;
-
-			$finish;
-  end
 
   initial begin
     $monitor("@ time=%0t,  A=%d, B=%d, M=%d",$time, A, B, M);
