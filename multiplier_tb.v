@@ -43,7 +43,7 @@ module tb_multi_seq();
 				0:
 				if( done ) begin 
 					i <= i + 1'b1;
-					A <= -1; B <= -1; 
+					A <= 1; B <= -1; 
 				end
 
 				1:
