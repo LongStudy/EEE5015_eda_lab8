@@ -53,14 +53,15 @@ module tb_multi_seq();
 		$monitor("@ time=%0t,  A=%d, B=%d, M=%d",$time, A, B, M);
 	end
 
-    always @ ( posedge clk or negedge rst_n ) begin
+    always @ ( posedge clk or negedge rst_n )
 		if( !rst_n )begin
-			i <= 0;
 			en <= 0;
 			A <= 0;
 			B <= 0;			 
-		end				
-		else begin
+		end			
+	
+	initial begin
+	#260;
 			for (i= -128; i<= 127; i=i+1) begin
 				for(j= -128; j<=127; j=j+1) begin
 					if( done ) begin en <= 0; i <= i + 1'b1; if (M != i*j) $display("Error: M=%d", M); end
