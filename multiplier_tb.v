@@ -35,7 +35,7 @@ module tb_multi_seq();
         if( !rst_n )
             begin
 				i <= 0;
-                A <= 0;
+                A <= 1;
 				B <= 0;
             end
 		else 
