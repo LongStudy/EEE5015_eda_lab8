@@ -43,10 +43,10 @@ module multiplier(x,y,out);
 endmodule
 
 
-module add(
+module add
 	#(
 	parameter width = 8;
-	)
+	)(
 	input [width:0] partial_product,xx,_x,
 	input [width-1:0] multiplicator,
 	input extra,
@@ -61,10 +61,10 @@ module add(
 endmodule
 
 
-module move(
+module move
 	#(
 	parameter width = 8;
-	)
+	)(
 	input [width:0] partial_product_in,
 	input [width-1:0] multiplicator_in,
 	output [width:0] partial_product_out,
@@ -77,10 +77,10 @@ module move(
 endmodule
 
 
-module cut(
+module cut
 	#(
 	parameter width = 8;
-	)
+	)(
 	input [width:0] partial_product,
 	input [width-1:0] multiplicator,
 	output [2*width-2:0] out);
