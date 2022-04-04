@@ -88,7 +88,7 @@ module tb_multi_seq();
 	#300   if (M != 12700) $display("Error: for M=%d", M);
   end
 
-
+    always @ ( posedge clk or negedge rst_n )
 	if( !rst_n )
             begin
 				i <= 0;
