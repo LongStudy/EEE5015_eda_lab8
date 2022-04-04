@@ -66,9 +66,9 @@ module tb_multi_seq();
 			0:
 			if( done ) begin en <= 0; i <= 1; addflag=0; if (M != A*B) $display("Error: A=%d, B=%d, A*B=%d, M=%d", A, B, A*B, M); end
 			else if( addflag ) begin  end
-			else if(( A == 127 )&&( B == 127 )) begin en <= 0; i <= { 32{1'b1} }; addflag=1; end
-			else if( A == 127) begin A <= 0; B <= B + 1; en <= 1; end
-			else begin A <= A + 1; B <= B ; en <= 1; end
+			else if(( A == 127 )&&( B == 127 )) begin en <= 0; i <= { 32{1'b1} }; end
+			else if( A == 127) begin A <= 0; B <= B + 1; en <= 1;addflag=1; end
+			else begin A <= A + 1; B <= B ; en <= 1;addflag=1; end
 			
 			1:
 			i <= 0;
