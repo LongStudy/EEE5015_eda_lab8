@@ -42,15 +42,15 @@ module tb_multi_seq();
 			case( i )
 				0: // mul_A = 10 , mul_B = 2
 				if( done ) begin start <= 1'b0; i <= i + 1'b1; end
-				else begin mul_A <= 8'd10; mul_B <= 8'd2; start <= 1'b1; end
+				else begin mul_A <= 127; mul_B <= -127; start <= 1'b1; end
 				
 				1: // mul_A = 2 , mul_B = 10
 				if( done ) begin start <= 1'b0; i <= i + 1'b1; end
-				else begin mul_A <= 8'd2; mul_B <= 8'd10; start <= 1'b1; end
+				else begin mul_A <= -128; mul_B <= 127; start <= 1'b1; end
 				
 				2: // mul_A = 11 , mul_B = -5
 				if( done ) begin start <= 1'b0; i <= i + 1'b1; end
-				else begin mul_A <= 8'd11; mul_B <= 8'b11111011; start <= 1'b1; end
+				else begin mul_A <= -128; mul_B <= -128; start <= 1'b1; end
 				
 				3: // mul_A = -5 , mul_B = -11
 				if( done ) begin start <= 1'b0; i <= i + 1'b1; end
