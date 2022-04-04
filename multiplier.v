@@ -36,7 +36,6 @@ module booth_mult#(parameter width=8)(
         else if( en ) begin
             case( state )
                 0: begin
-                    done <= 1'b0;
                     mult_A <= { { width{ A[width-1]} }, A}; // A[width-1] is the MSB of A, and extend to width bits
                     inv_A <= ~{ { width{ A[width-1]} }, A} + 1'b1 ; // inv_A = reverse (-A) = reverse(A) + 1'b1
                     result_tmp <= 0; 
@@ -65,6 +64,10 @@ module booth_mult#(parameter width=8)(
                     M <= result_tmp;    // output result
                     state <= 0;
                 end
+                3: begin
+					done<=1'b0;
+					state<=0;
+				end
                 default: begin
                     state <= 0;
                 end
