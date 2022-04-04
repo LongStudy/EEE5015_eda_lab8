@@ -45,7 +45,7 @@ module booth_mult#(parameter width=8)(
                     state <= state + 1'b1; 
                 end
                 1: begin
-                    if( count < width ) begin // if not stop, calculate result_tmp according to booth code
+                    if( count < 8 ) begin // if not stop, calculate result_tmp according to booth code
                         case(booth_code)
                             2'b01 : result_tmp <= result_tmp + mult_A;  // add mult_A
                             2'b10 : result_tmp <= result_tmp + inv_A;   // add inv_A
