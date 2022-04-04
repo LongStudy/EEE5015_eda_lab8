@@ -111,9 +111,9 @@ module tb_multi_seq();
 				else begin A <= 100; B <= 127; en <= 1; end
 
 				9:
-				if( done ) begin en <= 0; i <= i + 1'b1; $finish; end
+				if( done ) begin en <= 0; i <= i + 1'b1; end
 
-				default: begin i <= { 32{1} };end
+				default: begin i <= { 32{1} }; $finish;end
 			endcase
 
     initial begin
