@@ -25,7 +25,7 @@ module tb_multi_seq();
 		rst_n = 1;
 	end
 
-	booth_mult#(.D_IN(8)) 
+	booth_mult#(.width(8)) 
 	U1 (
 		.clk(clk),
 		.rst_n(rst_n),
@@ -63,16 +63,16 @@ module tb_multi_seq();
   end
 
   initial begin
-    #250   if (M != 0) $display("Error: for M=%d", dout);
-    #300   if (M != 1) $display("Error: for M=%d", dout);
-	#300   if (M != -1) $display("Error: for M=%d", dout);
-	#300   if (M != 1) $display("Error: for M=%d", dout);
-	#300   if (M != 1000) $display("Error: for M=%d", dout);
-	#300   if (M != -50) $display("Error: for M=%d", dout);
-	#300   if (M != 40) $display("Error: for M=%d", dout);
-	#300   if (M != 16384) $display("Error: for M=%d", dout);
-	#300   if (M != -16256) $display("Error: for M=%d", dout);
-	#300   if (M != 12700) $display("Error: for M=%d", dout);
+    #250   if (M != 0) $display("Error: for M=%d", M);
+    #300   if (M != 1) $display("Error: for M=%d", M);
+	#300   if (M != -1) $display("Error: for M=%d", M);
+	#300   if (M != 1) $display("Error: for M=%d", M);
+	#300   if (M != 1000) $display("Error: for M=%d", M);
+	#300   if (M != -50) $display("Error: for M=%d", M);
+	#300   if (M != 40) $display("Error: for M=%d", M);
+	#300   if (M != 16384) $display("Error: for M=%d", M);
+	#300   if (M != -16256) $display("Error: for M=%d", M);
+	#300   if (M != 12700) $display("Error: for M=%d", M);
   end
 
 
