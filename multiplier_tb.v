@@ -12,8 +12,8 @@ module tb_multi_seq();
     wire done;
     wire signed[2*width-1:0]M;
 
-	reg	signed[width-1:0]i;
-	reg	signed[width-1:0]j;
+	integer i;
+	integer j;
 
    	parameter CLK_PERIOD = 20;
     initial begin
