@@ -48,7 +48,6 @@ module tb_multi_seq();
         end
     end
 
-
   initial begin
     $monitor("@ time=%0t,  A=%d, B=%d, M=%d",$time, A, B, M);
   end
@@ -112,7 +111,7 @@ module tb_multi_seq();
 				if( done ) begin en <= 0; i <= i + 1'b1; end
 				else begin A <= 100; B <= 127; en <= 1; end
 
-				default: begin i <= { 32{1} }; end
+				default: begin i <= { 32{1} }; $finish;end
 			endcase
 
 
