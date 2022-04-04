@@ -1,11 +1,13 @@
+//booth
 
 module multiplier(x,y,out);
-	input [7:0] x,y; // 1 bit for sign + 7 bit for number
-	output [14:0] out; // 1 bit for sign + 14 bit for number
+	parameter width = 8;
+	input [width-1:0] x,y; // 1 bit for sign + 7 bit for number
+	output [2*width-2:0] out; // 1 bit for sign + 14 bit for number
 	
-	wire [8:0] xx,_x; // 2 bit for sign + 7 bit for number
-	wire [8:0] partial_product[0:15]; // 2 bit for sign + 7 bit for number
-	wire [7:0] multiplicator[0:7]; // 1 bit for sign + 7 bit for number
+	wire [width:0] xx,_x; // 2 bit for sign + 7 bit for number
+	wire [width:0] partial_product[0:15]; // 2 bit for sign + 7 bit for number
+	wire [width-1:0] multiplicator[0:7]; // 1 bit for sign + 7 bit for number
 	wire extra[0:7];
 
 	assign xx = {x[7],x};
@@ -42,12 +44,13 @@ endmodule
 
 
 module add(
-	input [8:0] partial_product,xx,_x,
-	input [7:0] multiplicator,
+	parameter width = 8;
+	input [width:0] partial_product,xx,_x,
+	input [width-1:0] multiplicator,
 	input extra,
-	output [8:0] result);
+	output [width:0] result);
 	
-	wire [8:0] r1,r2;
+	wire [width:0] r1,r2;
 	
 	assign r1 = (extra==multiplicator[0]) ? 0 : xx;
 	assign r2 = (!extra&multiplicator[0]) ? _x : r1;
@@ -57,10 +60,11 @@ endmodule
 
 
 module move(
-	input [8:0] partial_product_in,
-	input [7:0] multiplicator_in,
-	output [8:0] partial_product_out,
-	output [7:0] multiplicator_out,
+	parameter width = 8;
+	input [width:0] partial_product_in,
+	input [width-1:0] multiplicator_in,
+	output [width:0] partial_product_out,
+	output [width-1:0] multiplicator_out,
 	output extra_out);
 	
 	assign extra_out = multiplicator_in[0];
@@ -70,9 +74,10 @@ endmodule
 
 
 module cut(
-	input [8:0] partial_product,
-	input [7:0] multiplicator,
-	output [14:0] out);
+	parameter width = 8;
+	input [width:0] partial_product,
+	input [width-1:0] multiplicator,
+	output [2*width-2:0] out);
 	
-	assign out = {partial_product[7:0],multiplicator[7:1]};
+	assign out = {partial_product[width-1:0],multiplicator[7:1]};
 endmodule
