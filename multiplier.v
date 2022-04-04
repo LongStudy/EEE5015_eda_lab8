@@ -32,7 +32,7 @@ module booth_mult#(parameter width=8)(
 			result_tmp <= 0;
 			done <= 0;
 			M <= 0;
-            count <= 0;
+            count <= 1;
 		end
         else
             case( state )
