@@ -1,4 +1,4 @@
-//booth-1, bug in output
+//booth-1, bug in output width
 
 module multiplier(A,B,M);
 	parameter width = 8;
