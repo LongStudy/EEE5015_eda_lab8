@@ -45,7 +45,7 @@ endmodule
 
 module add
 	#(
-	parameter width = 8;
+	parameter width = 8
 	)(
 	input [width:0] partial_product,xx,_x,
 	input [width-1:0] multiplicator,
@@ -63,7 +63,7 @@ endmodule
 
 module move
 	#(
-	parameter width = 8;
+	parameter width = 8
 	)(
 	input [width:0] partial_product_in,
 	input [width-1:0] multiplicator_in,
@@ -79,7 +79,7 @@ endmodule
 
 module cut
 	#(
-	parameter width = 8;
+	parameter width = 8
 	)(
 	input [width:0] partial_product,
 	input [width-1:0] multiplicator,
