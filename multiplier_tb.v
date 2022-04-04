@@ -4,7 +4,7 @@ module tb_multi_seq();
 	parameter width=8;
     reg clk;
 	reg rst_n;
-	reg en,
+	reg en;
 	 
     reg [width-1:0]A;
     reg [width-1:0]B;
