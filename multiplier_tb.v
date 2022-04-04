@@ -10,7 +10,7 @@ module tb_multi_seq();
 
     wire done;
     wire [2*width-1:0]M;
-	 
+	wire [31:0]                  count;
    	always #10 clk = ~clk;
 	
     initial begin      
@@ -26,6 +26,7 @@ module tb_multi_seq();
 		.A(A),
 		.B(B),
 		.done(done),
+		.count(count),
 		.M(M)
 
 	);
