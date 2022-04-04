@@ -1,4 +1,4 @@
-
+// 
 module booth_mult#(parameter width=8)(
      input clk,
 	 input rst_n,

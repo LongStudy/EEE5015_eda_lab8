@@ -3,7 +3,7 @@
 module multiplier(A,B,M);
 	parameter width = 8;
 	input [width-1:0] A,B; // 1 bit for sign + 7 bit for number
-	output [2*width-2:0] M; // 1 bit for sign + 14 bit for number
+	output [2*width-1:0] M; // 1 bit for sign + 14 bit for number
 	
 	wire [width:0] xx,_x; // 2 bit for sign + 7 bit for number
 	wire [width:0] partial_product[0:15]; // 2 bit for sign + 7 bit for number
@@ -77,7 +77,7 @@ module cut
 	#(parameter width = 8)
 	(input [width:0] partial_product,
 	input [width-1:0] multiplicator,
-	output [2*width-2:0] out);
+	output [2*width-1:0] out);
 	
 	assign out = {partial_product[width-1:0],multiplicator[7:1]};
 endmodule
