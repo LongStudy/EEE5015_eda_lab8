@@ -4,6 +4,7 @@ module tb_multi_seq();
 	parameter width=8;
     reg clk;
 	reg rst_n;
+	reg en,
 	 
     reg [width-1:0]A;
     reg [width-1:0]B;
@@ -29,6 +30,7 @@ module tb_multi_seq();
 	U1 (
 		.clk(clk),
 		.rst_n(rst_n),
+		.en(en),
 		.A(A),
 		.B(B),
 		.done(done),
@@ -45,17 +47,26 @@ module tb_multi_seq();
     end
 
   initial begin
-    		A = 0; B = 0;
-    #300	A = 1; B = 1;
-    #300	A = 1; B = -1;
-    #300	A = -1; B = -1;
-	#300	A = -10; B = -100;
-	#300	A = 10; B = -5;
-	#300	A = 5; B = 8;
-	#300	A = -128; B = -128;
-	#300	A = -128; B = 127;
-	#300	A = 100; B = 127;
-	#300	$finish;
+    		A = 0; B = 0; en = 0;
+    #200	A = 1; B = 1; en = 1;
+	#100	en = 0;
+    #200	A = 1; B = -1; en = 1;
+	#100	en = 0;
+    #200	A = -1; B = -1; en = 1;
+	#100	en = 0;
+	#200	A = -10; B = -100; en = 1;
+	#100	en = 0;
+	#200	A = 10; B = -5; en = 1;
+	#100	en = 0;
+	#200	A = 5; B = 8; en = 1;
+	#100	en = 0;
+	#200	A = -128; B = -128; en = 1;
+	#100	en = 0;
+	#200	A = -128; B = 127; en = 1;
+	#100	en = 0;
+	#200	A = 100; B = 127; en = 1;
+	#100	en = 0;
+			$finish;
   end
 
   initial begin
@@ -63,7 +74,7 @@ module tb_multi_seq();
   end
 
   initial begin
-    #250   if (M != 0) $display("Error: for M=%d", M);
+    #450   if (M != 0) $display("Error: for M=%d", M);
     #300   if (M != 1) $display("Error: for M=%d", M);
 	#300   if (M != -1) $display("Error: for M=%d", M);
 	#300   if (M != 1) $display("Error: for M=%d", M);

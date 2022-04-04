@@ -4,7 +4,8 @@
 module booth_mult#(parameter width=8)(
     input clk,
 	input rst_n,
-	 
+	input en,
+
 	input [width-1:0]A,    // input data A
 	input [width-1:0]B,    // input data B
 	 
@@ -32,7 +33,7 @@ module booth_mult#(parameter width=8)(
 			M <= 0;
             count <= 0;
 		end
-        else
+        else if( en ) begin
             case( state )
                 0: begin
                     done <= 1'b0;
@@ -68,6 +69,7 @@ module booth_mult#(parameter width=8)(
                     state <= 0;
                 end
             endcase
+        end
 endmodule
 
 
