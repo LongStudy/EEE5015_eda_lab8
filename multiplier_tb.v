@@ -12,9 +12,6 @@ module tb_multi_seq();
     wire done;
     wire signed[2*width-1:0]M;
 
-	integer i;
-	integer j;
-
    	parameter CLK_PERIOD = 20;
     initial begin
         clk = 0;
@@ -54,22 +51,54 @@ module tb_multi_seq();
 	end
 
     always @ ( posedge clk or negedge rst_n )
-		if( !rst_n )begin
-			en <= 0;
-			A <= 0;
-			B <= 0;			 
-		end			
-	
-	initial begin
-		#260;
-		for (i= 0; i<= 256; i=i+1) begin
-			for(j= 0; j<=256; j=j+1) begin
-				if( done ) begin en <= 0; i <= i + 1'b1; if (M != i*j) $display("Error: M=%d", M); end
-				else begin A <= A + 1 ; B <= B + 1; en <= 1; end
-			end
-		end
-	end
+	if( !rst_n )
+            begin
+				i <= 0;
+				en <= 0;
+                A <= -128;
+				B <= -128;			 
+            end				
+	else 
+		case( i )
+			0:
+			if( done ) begin en <= 0; i <= 0; if (M != A*B) $display("Error: M=%d", M); end
+			else if( A != 127) begin A <= A + 1; B <= B ; en <= 1; end
+			else begin A <= 0; B <= B + 1; en <= 1; end
+			
+			1:
+			if( done ) begin en <= 0; i <= i + 1'b1; if (M != -1) $display("Error: M=%d", M); end
+			else begin A <= 1; B <= -1; en <= 1; end
+			
+			2:
+			if( done ) begin en <= 0; i <= i + 1'b1; if (M != 1) $display("Error: M=%d", M);end
+			else begin A <= -1; B <= -1; en <= 1; end
+			
+			3:
+			if( done ) begin en <= 0; i <= i + 1'b1; end
+			else begin A <= -10; B <= -100; en <= 1; end
+			
+			4:
+			if( done ) begin en <= 0; i <= i + 1'b1; end
+			else begin A <= 10; B <= -5; en <= 1; end
+			
+			5:
+			if( done ) begin en <= 0; i <= i + 1'b1; end
+			else begin A <= 5; B <= 8; en <= 1; end
+			
+			6:
+			if( done ) begin en <= 0; i <= i + 1'b1; end
+			else begin A <= -128; B <= -128; en <= 1; end
 
+			7:
+			if( done ) begin en <= 0; i <= i + 1'b1; end
+			else begin A <= -128; B <= 127; en <= 1; end
+
+			8:
+			if( done ) begin en <= 0; i <= i + 1'b1; end
+			else begin A <= 100; B <= 127; en <= 1; end
+
+			default: begin i <= { 32{1} };end
+		endcase
 
     initial begin
         $vcdpluson; 
