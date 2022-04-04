@@ -1,4 +1,4 @@
-DUT = ./multiplier.v.v
+DUT = ./multiplier.v
 
 TB  = ./multiplier_tb.v ./timescale.v
 
