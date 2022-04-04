@@ -48,22 +48,21 @@ module tb_multi_seq();
         end
     end
 
-  initial begin
-    $monitor("@ time=%0t,  A=%d, B=%d, M=%d",$time, A, B, M);
-  end
+	initial begin
+		$monitor("@ time=%0t,  A=%d, B=%d, M=%d",$time, A, B, M);
+	end
 
-  initial begin
-    #450   if (M != 0) $display("Error: for M=%d", M);
-    #300   if (M != 1) $display("Error: for M=%d", M);
-	#300   if (M != -1) $display("Error: for M=%d", M);
-	#300   if (M != 1) $display("Error: for M=%d", M);
-	#300   if (M != 1000) $display("Error: for M=%d", M);
-	#300   if (M != -50) $display("Error: for M=%d", M);
-	#300   if (M != 40) $display("Error: for M=%d", M);
-	#300   if (M != 16384) $display("Error: for M=%d", M);
-	#300   if (M != -16256) $display("Error: for M=%d", M);
-	#300   if (M != 12700) $display("Error: for M=%d", M);
-  end
+	initial begin
+		#260   if (M != 1) $display("Error: for M=%d", M);
+		#260   if (M != -1) $display("Error: for M=%d", M);
+		#260   if (M != 1) $display("Error: for M=%d", M);
+		#260   if (M != 1000) $display("Error: for M=%d", M);
+		#260   if (M != -50) $display("Error: for M=%d", M);
+		#260   if (M != 40) $display("Error: for M=%d", M);
+		#260   if (M != 16384) $display("Error: for M=%d", M);
+		#260   if (M != -16256) $display("Error: for M=%d", M);
+		#260   if (M != 12700) $display("Error: for M=%d", M);
+	end
 
     always @ ( posedge clk or negedge rst_n )
 	if( !rst_n )
@@ -111,9 +110,11 @@ module tb_multi_seq();
 				if( done ) begin en <= 0; i <= i + 1'b1; end
 				else begin A <= 100; B <= 127; en <= 1; end
 
-				default: begin i <= { 32{1} }; $finish;end
+				default: begin i <= { 32{1} };end
 			endcase
-
+	initial begin
+		#2500 $finish;
+	end
 
     initial begin
         $vcdpluson; 
