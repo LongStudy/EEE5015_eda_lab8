@@ -13,6 +13,7 @@ module tb_multi_seq();
     wire signed[2*width-1:0]M;
 
 	reg [31:0]i;
+	reg addflag;
 
    	parameter CLK_PERIOD = 20;
     initial begin
@@ -58,46 +59,23 @@ module tb_multi_seq();
 			i <= 0;
 			en <= 0;
 			A <= -128;
-			B <= -128;			 
+			B <= -128;
 		end				
 	else 
 		case( i )
 			0:
-			if( done ) begin en <= 0; i <= 0; if (M != A*B) $display("Error: M=%d", M); end
-			else if( A != 127) begin A <= A + 1; B <= B ; en <= 1; end
-			else begin A <= 0; B <= B + 1; en <= 1; end
+			if( done ) begin en <= 0; i <= 1; addflag=0; if (M != A*B) $display("Error: A=%d, B=%d, A*B=%d, M=%d", A, B, A*B, M); end
+			else if( addflag ) begin  end
+			else if( A == 127 )&( B == 127 )begin en <= 0; i <= { 32{1} }; addflag=1; end
+			else if( A == 127) begin A <= 0; B <= B + 1; en <= 1; end
+			else begin A <= A + 1; B <= B ; en <= 1; end
 			
 			1:
-			if( done ) begin en <= 0; i <= i + 1'b1; if (M != -1) $display("Error: M=%d", M); end
-			else begin A <= 1; B <= -1; en <= 1; end
-			
-			2:
-			if( done ) begin en <= 0; i <= i + 1'b1; if (M != 1) $display("Error: M=%d", M);end
-			else begin A <= -1; B <= -1; en <= 1; end
+			i <= 0;
 			
 			3:
 			if( done ) begin en <= 0; i <= i + 1'b1; end
 			else begin A <= -10; B <= -100; en <= 1; end
-			
-			4:
-			if( done ) begin en <= 0; i <= i + 1'b1; end
-			else begin A <= 10; B <= -5; en <= 1; end
-			
-			5:
-			if( done ) begin en <= 0; i <= i + 1'b1; end
-			else begin A <= 5; B <= 8; en <= 1; end
-			
-			6:
-			if( done ) begin en <= 0; i <= i + 1'b1; end
-			else begin A <= -128; B <= -128; en <= 1; end
-
-			7:
-			if( done ) begin en <= 0; i <= i + 1'b1; end
-			else begin A <= -128; B <= 127; en <= 1; end
-
-			8:
-			if( done ) begin en <= 0; i <= i + 1'b1; end
-			else begin A <= 100; B <= 127; en <= 1; end
 
 			default: begin i <= { 32{1} };end
 		endcase
