@@ -61,7 +61,7 @@ module tb_multi_seq();
 					A <= 127; B <= 127;
 				end
 			
-				4: begin i <= 4'd4; end
+				default: begin i <= 4'b1111; end
 			endcase
 
     initial begin
