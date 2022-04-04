@@ -49,9 +49,9 @@ module booth_mult#(parameter width=8)(
                             2'b10 : result_tmp <= result_tmp + inv_A;   // add inv_A
                             default: result_tmp <= result_tmp;       // do nothing
                         endcase 
-                        mult_A <= {mult_A[14:0],1'b0};  // shift mult_A to left, and add 1'b0 to the right
-                        inv_A <=  {inv_A[14:0],1'b0};   // shift inv_A to left, and add 1'b0 to the right
-                        mult_B <= {mult_B[8],mult_B[8:1]}; // shift mult_B to left, and extend singed bit
+                        mult_A <= {mult_A[2*width-2:0],1'b0};  // shift mult_A to left, and add 1'b0 to the right
+                        inv_A <=  {inv_A[2*width-2:0],1'b0};   // shift inv_A to left, and add 1'b0 to the right
+                        mult_B <= {mult_B[width],mult_B[width:1]}; // shift mult_B to left, and extend singed bit
                         count <= count + 1;
                     end
                     else begin

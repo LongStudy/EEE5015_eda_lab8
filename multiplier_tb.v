@@ -75,7 +75,7 @@ module tb_multi_seq();
 		else 
 			case( i )
 				0:
-				if( done ) begin en <= 0; i <= i + 1'b1; end
+				if( done ) begin en <= 0; i <= i + 1'b1;  end
 				else begin A <= 1; B <= 1; en <= 1; end
 				
 				1:
@@ -110,11 +110,11 @@ module tb_multi_seq();
 				if( done ) begin en <= 0; i <= i + 1'b1; end
 				else begin A <= 100; B <= 127; en <= 1; end
 
+				9:
+				if( done ) begin en <= 0; i <= i + 1'b1; $finish; end
+
 				default: begin i <= { 32{1} };end
 			endcase
-	initial begin
-		#2500 $finish;
-	end
 
     initial begin
         $vcdpluson; 
