@@ -62,7 +62,7 @@ module booth_mult#(parameter width=8)(
                 2:begin
                     done <= 1'b1;       // done flag
                     M <= result_tmp;    // output result
-                    state <= 0;
+                    state <= state + 1'b1;
                 end
                 3: begin
 					done <= 1'b0;
