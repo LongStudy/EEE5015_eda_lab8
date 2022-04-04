@@ -5,9 +5,9 @@ module multiplier_tb;
     multiplier u_multiplier(x,y,out);
 
     initial begin
-        #4 x = 1; y = 1;
-        #4 x = 1; y = -1;
-        #4 x = -1; y = -1;
+        #4 x = 127; y = 127;
+        #4 x = 127; y = -128;
+        #4 x = -128; y = -128;
         #4 x = -1; y = 1;
         #4 x = 0; y = 1;
         #4 x = 1; y = 0;

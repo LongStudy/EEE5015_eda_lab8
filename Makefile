@@ -1,6 +1,6 @@
-DUT = ./multiplier2.v
+DUT = ./multiplier.v
 
-TB  = ./multiplier2_tb.v ./timescale.v
+TB  = ./multiplier_tb.v ./timescale.v
 
 SEED = $(shell date +%s)
 
