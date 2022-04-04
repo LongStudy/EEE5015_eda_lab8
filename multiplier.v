@@ -65,8 +65,8 @@ module booth_mult#(parameter width=8)(
                     state <= 0;
                 end
                 3: begin
-					done<=1'b0;
-					state<=0;
+					done <= 1'b0;
+					state <= 0;
 				end
                 default: begin
                     state <= 0;
