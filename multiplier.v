@@ -32,7 +32,7 @@ module booth_mult#(parameter width=8)(
 			result_tmp <= 0;
 			done <= 0;
 			M <= 0;
-            count <= 1;
+            count <= 0;
 		end
         else
             case( state )
@@ -56,9 +56,10 @@ module booth_mult#(parameter width=8)(
                         mult_B <= {mult_B[8],mult_B[8:1]}; // shift mult_B to left, and extend singed bit
                         count <= count + 1;
                     end
-                    else 
+                    else begin
                         state <= state + 1'b1;
                         count <= 0;
+                    end
                 end
                 2:begin
                     done <= 1'b1;       // done flag
