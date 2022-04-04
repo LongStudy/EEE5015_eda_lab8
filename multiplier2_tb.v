@@ -58,5 +58,13 @@ module tb_multi_seq();
 				
 				4: begin i <= 4'd4; end
 			endcase
+
+    initial begin
+        #400 $finish;
+    end
+
+    initial begin
+        $vcdpluson; 
+    end
  endmodule
 
