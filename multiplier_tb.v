@@ -12,6 +12,8 @@ module tb_multi_seq();
     wire done;
     wire [2*width-1:0]M;
 
+	reg [31:0]i;
+
    	parameter CLK_PERIOD = 20;
     initial begin
         clk = 0;
@@ -49,23 +51,23 @@ module tb_multi_seq();
   initial begin
     		A = 0; B = 0; en = 0;
     #200	A = 1; B = 1; en = 1;
-	#100	en = 0;
+
     #200	A = 1; B = -1; en = 1;
-	#100	en = 0;
+
     #200	A = -1; B = -1; en = 1;
-	#100	en = 0;
+
 	#200	A = -10; B = -100; en = 1;
-	#100	en = 0;
+
 	#200	A = 10; B = -5; en = 1;
-	#100	en = 0;
+
 	#200	A = 5; B = 8; en = 1;
-	#100	en = 0;
+
 	#200	A = -128; B = -128; en = 1;
-	#100	en = 0;
+
 	#200	A = -128; B = 127; en = 1;
-	#100	en = 0;
+
 	#200	A = 100; B = 127; en = 1;
-	#100	en = 0;
+
 			$finish;
   end
 
@@ -85,6 +87,55 @@ module tb_multi_seq();
 	#300   if (M != -16256) $display("Error: for M=%d", M);
 	#300   if (M != 12700) $display("Error: for M=%d", M);
   end
+
+
+	if( !rst_n )
+            begin
+				i <= 0;
+				en <= 0;
+                A <= 0;
+				B <= 0;			 
+            end				
+		else 
+			case( i )
+				0:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= 1; B <= 1; en <= 1; end
+				
+				1:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= 1; B <= -1; en <= 1; end
+				
+				2:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= -1; B <= -1; en <= 1; end
+				
+				3:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= -10; B <= -100; en <= 1; end
+				
+				4:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= 10; B <= -5; en <= 1; end
+				
+				5:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= 5; B <= 8; en <= 1; end
+				
+				6:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= -128; B <= -128; en <= 1; end
+
+				7:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= -128; B <= 127; en <= 1; end
+
+				8:
+				if( done ) begin en <= 0; i <= i + 1'b1; end
+				else begin A <= 100; B <= 127; en <= 1; end
+
+				default: begin i <= { 32{1} }; end
+			endcase
 
 
     initial begin
