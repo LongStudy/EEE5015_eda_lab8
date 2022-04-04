@@ -4,11 +4,11 @@ module tb_multi_seq();
     reg clk;
 	reg rst_n;
 	 
-    reg [7:0]mul_A;
-    reg [7:0]mul_B;
+    reg [7:0]A;
+    reg [7:0]B;
 
     wire done;
-    wire [15:0]Product;
+    wire [15:0]M;
 	 
    always #10 clk = ~clk;
     initial begin      
@@ -21,10 +21,10 @@ module tb_multi_seq();
 	U1 (
 	    .clk(clk),
 		.rst_n(rst_n),
-	    .mul_A(mul_A),
-	    .mul_B(mul_B),
+	    .A(A),
+	    .B(B),
 		.done(done),
-	    .Product(Product)
+	    .M(M)
     );
 
 	reg [3:0]i;
@@ -32,26 +32,26 @@ module tb_multi_seq();
         if( !rst_n )
             begin
 				i <= 4'd0;
-                mul_A <= 8'd0;
-				mul_B <= 8'd0;			 
+                A <= 8'd0;
+				B <= 8'd0;			 
             end				
 		else 
 			case( i )
-				0: // mul_A = 10 , mul_B = 2
+				0: // A = 10 , B = 2
 				if( done ) begin i <= i + 1'b1; end
-				else begin mul_A <= 127; mul_B <= -127; end
+				else begin A <= 127; B <= -127; end
 				
-				1: // mul_A = 2 , mul_B = 10
+				1: // A = 2 , B = 10
 				if( done ) begin i <= i + 1'b1; end
-				else begin mul_A <= -128; mul_B <= 127; end
+				else begin A <= -128; B <= 127; end
 				
-				2: // mul_A = 11 , mul_B = -5
+				2: // A = 11 , B = -5
 				if( done ) begin i <= i + 1'b1; end
-				else begin mul_A <= -128; mul_B <= -128; end
+				else begin A <= -128; B <= -128; end
 				
-				3: // mul_A = -5 , mul_B = -11
+				3: // A = -5 , B = -11
 				if( done ) begin i <= i + 1'b1; end
-				else begin mul_A <= 8'b11111011; mul_B <= 8'b11110101; end
+				else begin A <= 8'b11111011; B <= 8'b11110101; end
 				
 				4: begin i <= 4'd4; end
 			endcase
