@@ -12,7 +12,8 @@ module tb_multi_seq();
     wire done;
     wire signed[2*width-1:0]M;
 
-	reg [31:0]i;
+	reg	signed[width-1:0]i;
+	reg	signed[width-1:0]j;
 
    	parameter CLK_PERIOD = 20;
     initial begin
@@ -52,18 +53,6 @@ module tb_multi_seq();
 		$monitor("@ time=%0t,  A=%d, B=%d, M=%d",$time, A, B, M);
 	end
 
-	initial begin
-		#260   if (M != 1) $display("Error: for M=%d", M);
-		#260   if (M != -1) $display("Error: for M=%d", M);
-		#260   if (M != 1) $display("Error: for M=%d", M);
-		#260   if (M != 1000) $display("Error: for M=%d", M);
-		#260   if (M != -50) $display("Error: for M=%d", M);
-		#260   if (M != 40) $display("Error: for M=%d", M);
-		#260   if (M != 16384) $display("Error: for M=%d", M);
-		#260   if (M != -16256) $display("Error: for M=%d", M);
-		#260   if (M != 12700) $display("Error: for M=%d", M);
-	end
-
     always @ ( posedge clk or negedge rst_n )
 	if( !rst_n )
             begin
@@ -72,46 +61,16 @@ module tb_multi_seq();
                 A <= 0;
 				B <= 0;			 
             end				
-		else 
-			case( i )
-				0:
-				if( done ) begin en <= 0; i <= i + 1'b1; if (M != 1) $display("Error: M=%d", M); end
-				else begin A <= 1; B <= 1; en <= 1; end
-				
-				1:
-				if( done ) begin en <= 0; i <= i + 1'b1; if (M != -1) $display("Error: M=%d", M); end
-				else begin A <= 1; B <= -1; en <= 1; end
-				
-				2:
-				if( done ) begin en <= 0; i <= i + 1'b1; if (M != 1) $display("Error: M=%d", M);end
-				else begin A <= -1; B <= -1; en <= 1; end
-				
-				3:
-				if( done ) begin en <= 0; i <= i + 1'b1; end
-				else begin A <= -10; B <= -100; en <= 1; end
-				
-				4:
-				if( done ) begin en <= 0; i <= i + 1'b1; end
-				else begin A <= 10; B <= -5; en <= 1; end
-				
-				5:
-				if( done ) begin en <= 0; i <= i + 1'b1; end
-				else begin A <= 5; B <= 8; en <= 1; end
-				
-				6:
-				if( done ) begin en <= 0; i <= i + 1'b1; end
-				else begin A <= -128; B <= -128; en <= 1; end
+	else begin
+		for (i={ width{1} }; i<={ 0, width-1{1} }; i=i+1) begin
+			for(j={ width{1} }; j<={ 0, width-1{1} }; j=j+1)begin
+				if( done ) begin en <= 0; i <= i + 1'b1; if (M != i*j) $display("Error: M=%d", M); end
+				else begin A <= i; B <= j; en <= 1; end
+			end
+		end
+	$finish;
+	end
 
-				7:
-				if( done ) begin en <= 0; i <= i + 1'b1; end
-				else begin A <= -128; B <= 127; en <= 1; end
-
-				8:
-				if( done ) begin en <= 0; i <= i + 1'b1; end
-				else begin A <= 100; B <= 127; en <= 1; end
-
-				default: begin i <= { 32{1} }; $finish;end
-			endcase
 
     initial begin
         $vcdpluson; 
