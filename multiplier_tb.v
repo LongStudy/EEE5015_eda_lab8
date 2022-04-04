@@ -61,15 +61,14 @@ module tb_multi_seq();
 		end			
 	
 	initial begin
-	#260;
-			for (i= -128; i<= 127; i=i+1) begin
-				for(j= -128; j<=127; j=j+1) begin
-					if( done ) begin en <= 0; i <= i + 1'b1; if (M != i*j) $display("Error: M=%d", M); end
-					else begin A <= i; B <= j; en <= 1; end
-				end
+		#260;
+		for (i= -128; i<= 127; i=i+1) begin
+			for(j= -128; j<=127; j=j+1) begin
+				if( done ) begin en <= 0; i <= i + 1'b1; if (M != i*j) $display("Error: M=%d", M); end
+				else begin A <= i; B <= j; en <= 1; end
 			end
-		$finish;
 		end
+		$finish;
 	end
 
 
