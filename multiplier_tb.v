@@ -6,11 +6,11 @@ module tb_multi_seq();
 	reg rst_n;
 	reg en;
 	 
-    reg [width-1:0]A;
-    reg [width-1:0]B;
+    reg signed[width-1:0]A;
+    reg signed[width-1:0]B;
 
     wire done;
-    wire [2*width-1:0]M;
+    wire signed[2*width-1:0]M;
 
 	reg [31:0]i;
 
