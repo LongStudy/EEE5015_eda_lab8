@@ -9,7 +9,7 @@ module booth_mult#(parameter width=8)(
 	input [width-1:0]B,    // input data B
 	 
 	output reg done,       // done flag
-    output reg [31:0]                  count;      // count
+    output reg [31:0]                  count,      // count
 	output reg [2*width-1:0]M   // output data multiply
 
     );
