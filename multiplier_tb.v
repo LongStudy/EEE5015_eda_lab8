@@ -75,15 +75,15 @@ module tb_multi_seq();
 		else 
 			case( i )
 				0:
-				if( done ) begin en <= 0; i <= i + 1'b1;  end
+				if( done ) begin en <= 0; i <= i + 1'b1; if (M != 1) $display("Error: M=%d", M); end
 				else begin A <= 1; B <= 1; en <= 1; end
 				
 				1:
-				if( done ) begin en <= 0; i <= i + 1'b1; if (M != 1) $display("Error: for M=%d", M); end
+				if( done ) begin en <= 0; i <= i + 1'b1; if (M != -1) $display("Error: M=%d", M); end
 				else begin A <= 1; B <= -1; en <= 1; end
 				
 				2:
-				if( done ) begin en <= 0; i <= i + 1'b1; if (M != -1) $display("Error: for M=%d", M);end
+				if( done ) begin en <= 0; i <= i + 1'b1; if (M != 1) $display("Error: M=%d", M);end
 				else begin A <= -1; B <= -1; en <= 1; end
 				
 				3:
