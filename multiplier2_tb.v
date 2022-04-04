@@ -60,7 +60,7 @@ module tb_multi_seq();
 			endcase
 
     initial begin
-        #400 $finish;
+        #2000 $finish;
     end
 
     initial begin
