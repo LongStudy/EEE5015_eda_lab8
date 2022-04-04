@@ -9,9 +9,7 @@ module booth_mult#(parameter width=8)(
 	input [width-1:0]B,    // input data B
 	 
 	output reg done,       // done flag
-    output reg [31:0]                  count,      // count
 	output reg [2*width-1:0]M   // output data multiply
-
     );
 
 	 
@@ -22,7 +20,7 @@ module booth_mult#(parameter width=8)(
     reg [2*width-1:0]			result_tmp; // operation register 
     wire [1:0]					booth_code; // booth code
     assign booth_code = mult_B[1:0];       // booth code always equal to B[1:0]
-    //reg [31:0]                  count;      // count
+    reg [31:0]                  count;      // count
 
     always @ ( posedge clk or negedge rst_n )
 		if( !rst_n ) begin // reset

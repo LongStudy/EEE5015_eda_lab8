@@ -10,15 +10,21 @@ module tb_multi_seq();
 
     wire done;
     wire [2*width-1:0]M;
-	wire [31:0]                  count;
-   	always #10 clk = ~clk;
+
+   	parameter CLK_PERIOD = 20;
+    initial begin
+        clk = 0;
+        forever begin
+            #(CLK_PERIOD/2) clk = ~clk;
+        end
+    end
 	
     initial begin      
         rst_n = 0;
-		clk = 0;
 		#10;
 		rst_n = 1;
 	end
+
 	booth_mult#(.D_IN(8)) 
 	U1 (
 		.clk(clk),
@@ -26,51 +32,49 @@ module tb_multi_seq();
 		.A(A),
 		.B(B),
 		.done(done),
-		.count(count),
 		.M(M)
-
 	);
 
-	reg [3:0]i;
-
-    always @ ( posedge clk or negedge rst_n )
-        if( !rst_n )
-            begin
-				i <= 0;
-                A <= 1;
-				B <= 1;
-            end
-		else 
-			case( i )
-				0:
-				if( done ) begin 
-					i <= i + 1'b1;
-				end
-
-				1:
-				if( done ) begin 
-					i <= i + 1'b1;
-					A <= -128; B <= 127; 
-				end
-				
-				2:
-				if( done ) begin 
-					i <= i + 1'b1;
-					A <= -128; B <= -128;
-				end
-				
-				3:
-				if( done ) begin 
-					i <= i + 1'b1;
-					A <= 127; B <= 127;
-				end
-			
-				default: begin i <= 4'b1111; end
-			endcase
-
-    initial begin
-        #2000 $finish;
+    always @ (posedge rst_n or negedge rst_n) begin
+        if (!rst_n) begin
+        $display("%t:%m: resetting ......", $time); 
+        end
+        else begin
+        $display("%t:%m: resetting finish", $time); 
+        end
     end
+
+  initial begin
+    		A = 0; B = 0;
+    #300	A = 1; B = 1;
+    #300	A = 1; B = -1;
+    #300	A = -1; B = -1;
+	#300	A = -10; B = -100;
+	#300	A = 10; B = -5;
+	#300	A = 5; B = 8;
+	#300	A = -128; B = -128;
+	#300	A = -128; B = 127;
+	#300	A = 100; B = 127;
+	#300	$finish;
+  end
+
+  initial begin
+    $monitor("@ time=%0t,  A=%d, B=%d, M=%d",$time, A, B, M);
+  end
+
+  initial begin
+    #250   if (M != 0) $display("Error: for M=%d", dout);
+    #300   if (M != 1) $display("Error: for M=%d", dout);
+	#300   if (M != -1) $display("Error: for M=%d", dout);
+	#300   if (M != 1) $display("Error: for M=%d", dout);
+	#300   if (M != 1000) $display("Error: for M=%d", dout);
+	#300   if (M != -50) $display("Error: for M=%d", dout);
+	#300   if (M != 40) $display("Error: for M=%d", dout);
+	#300   if (M != 16384) $display("Error: for M=%d", dout);
+	#300   if (M != -16256) $display("Error: for M=%d", dout);
+	#300   if (M != 12700) $display("Error: for M=%d", dout);
+  end
+
 
     initial begin
         $vcdpluson; 
