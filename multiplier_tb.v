@@ -15,6 +15,7 @@ module tb_multi_seq();
 	
     initial begin      
         rst_n = 0;
+		clk = 0;
 		#10;
 		rst_n = 1;
 	end
