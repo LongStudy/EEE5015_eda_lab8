@@ -21,10 +21,10 @@ module tb_multi_seq();
 	U1 (
 	    .clk(clk),
 		.rst_n(rst_n),
-	    .mul_A(mul_A),
-	    .mul_B(mul_B),
+	    .A(mul_A),
+	    .A(mul_B),
 		.done(done),
-	    .Product(Product)
+	    .M(Product)
     );
 
 	reg [3:0]i;
