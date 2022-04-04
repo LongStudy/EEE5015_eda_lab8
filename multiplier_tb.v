@@ -1,31 +1,32 @@
 
 module tb_multi_seq();
 
+	parameter width=8
     reg clk;
 	reg rst_n;
 	 
-    reg [7:0]A;
-    reg [7:0]B;
+    reg [width-1:0]A;
+    reg [width-1:0]B;
 
     wire done;
-    wire [15:0]M;
+    wire [2*width-1:0]M;
 	 
-   always #10 clk = ~clk;
+   	always #10 clk = ~clk;
     initial begin      
         rst_n = 0; 	    
 		clk = 1;
 		#10; 
 		rst_n = 1;
 	 end
-  booth_mult#(.D_IN(8)) 
-	U1 (
-	    .clk(clk),
-		.rst_n(rst_n),
-	    .A(A),
-	    .B(B),
-		.done(done),
-	    .M(M)
-    );
+	booth_mult#(.D_IN(8)) 
+		U1 (
+			.clk(clk),
+			.rst_n(rst_n),
+			.A(A),
+			.B(B),
+			.done(done),
+			.M(M)
+		);
 
 	reg [3:0]i;
     always @ ( posedge clk or negedge rst_n )
