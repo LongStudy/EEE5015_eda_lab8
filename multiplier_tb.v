@@ -68,7 +68,6 @@ module tb_multi_seq();
 				else begin A <= A + 1 ; B <= B + 1; en <= 1; end
 			end
 		end
-		$finish;
 	end
 
 
