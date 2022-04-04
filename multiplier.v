@@ -1,83 +1,66 @@
-//booth-1, bug in output width
+// 
+module booth_mult#(parameter width=8)(
+     input clk,
+	 input rst_n,
+	 
+	 input [width-1:0]A,
+	 input [width-1:0]B,
+	 
+	 output reg done,
+	 output reg [2*width-1:0]M
+);
+	 
+	 reg [1:0]					state;
+	 reg [2*width-1:0]			mult_A;  // result of A
+	 reg [width:0]				mult_B;  // result of A
+	 reg [2*width-1:0]			inv_A;  // reverse result of A
+	 reg  [2*width-1:0]			result_tmp;  // operation register 
+	 wire [1:0]					booth_code;
+	 assign booth_code = mult_B[1:0];
+	 assign stop=(~|mult_B)||(&mult_B);
 
-module multiplier(A,B,M);
-	parameter width = 8;
-	input [width-1:0] A,B; // 1 bit for sign + 7 bit for number
-	output [2*width-1:0] M; // 1 bit for sign + 14 bit for number
-	
-	wire [width:0] xx,_x; // 2 bit for sign + 7 bit for number
-	wire [width:0] partial_product[0:15]; // 2 bit for sign + 7 bit for number
-	wire [width-1:0] multiplicator[0:7]; // 1 bit for sign + 7 bit for number
-	wire extra[0:7];
-
-	assign xx = {A[7],A};
-	assign _x = ~xx+1'b1;
-	assign partial_product[0] = 0;
-	assign multiplicator[0] = B;
-	assign extra[0] = 0;
-	
-	add(partial_product[0],xx,_x,multiplicator[0],extra[0],partial_product[1]);
-	move(partial_product[1],multiplicator[0],partial_product[2],multiplicator[1],extra[1]);
-	
-	add(partial_product[2],xx,_x,multiplicator[1],extra[1],partial_product[3]);
-	move(partial_product[3],multiplicator[1],partial_product[4],multiplicator[2],extra[2]);
-	
-	add(partial_product[4],xx,_x,multiplicator[2],extra[2],partial_product[5]);
-	move(partial_product[5],multiplicator[2],partial_product[6],multiplicator[3],extra[3]);
-	
-	add(partial_product[6],xx,_x,multiplicator[3],extra[3],partial_product[7]);
-	move(partial_product[7],multiplicator[3],partial_product[8],multiplicator[4],extra[4]);
-	
-	add(partial_product[8],xx,_x,multiplicator[4],extra[4],partial_product[9]);
-	move(partial_product[9],multiplicator[4],partial_product[10],multiplicator[5],extra[5]);
-	
-	add(partial_product[10],xx,_x,multiplicator[5],extra[5],partial_product[11]);
-	move(partial_product[11],multiplicator[5],partial_product[12],multiplicator[6],extra[6]);
-	
-	add(partial_product[12],xx,_x,multiplicator[6],extra[6],partial_product[13]);
-	move(partial_product[13],multiplicator[6],partial_product[14],multiplicator[7],extra[7]);
-	
-	add(partial_product[14],xx,_x,multiplicator[7],extra[7],partial_product[15]);
-	
-	cut(partial_product[15],multiplicator[7],M);
+	 always @ ( posedge clk or negedge rst_n )
+		if( !rst_n ) begin
+			state <= 0;
+			mult_A <= 0;
+			inv_A <= 0;
+			result_tmp  <= 0;
+			done <= 0;
+			M<=0;
+		end
+        else
+            case( state )	
+                0: begin 
+                    mult_A <= {{width{A[width-1]}},A}; 
+                    inv_A <= ~{{width{A[width-1]}},A} + 1'b1 ; 
+                    result_tmp <= 0; 
+                    mult_B <= {B,1'b0};
+                    state <= state + 1'b1; 
+                end
+                1: begin
+                    if(~stop) begin 
+                        case(booth_code)
+                            2'b01 : result_tmp <= result_tmp + mult_A;
+                            2'b10 : result_tmp <= result_tmp + inv_A;
+                            default: result_tmp <= result_tmp;
+                        endcase 
+                        mult_A <= {mult_A[14:0],1'b0};
+                        inv_A <=  {inv_A[14:0],1'b0};
+                        mult_B <= {mult_B[8],mult_B[8:1]};
+                    end
+                    else 
+                        state <= state + 1'b1;
+                end
+                2:begin
+                    done<=1'b1;
+                    M<= result_tmp;
+                    state <= state+1;
+                end
+                3: begin
+                    done<=1'b0;
+                    state<=0;
+                end
+            endcase
 endmodule
 
 
-module add
-	#(parameter width = 8)
-	(input [width:0] partial_product,xx,_x,
-	input [width-1:0] multiplicator,
-	input extra,
-	output [width:0] result);
-	
-	wire [width:0] r1,r2;
-	
-	assign r1 = (extra==multiplicator[0]) ? 0 : xx;
-	assign r2 = (!extra&multiplicator[0]) ? _x : r1;
-	
-	assign result = partial_product + r2;
-endmodule
-
-
-module move
-	#(parameter width = 8)
-	(input [width:0] partial_product_in,
-	input [width-1:0] multiplicator_in,
-	output [width:0] partial_product_out,
-	output [width-1:0] multiplicator_out,
-	output extra_out);
-	
-	assign extra_out = multiplicator_in[0];
-	assign multiplicator_out = {partial_product_in[0],multiplicator_in[7:1]};
-	assign partial_product_out = {partial_product_in[8],partial_product_in[8:1]};
-endmodule
-
-
-module cut
-	#(parameter width = 8)
-	(input [width:0] partial_product,
-	input [width-1:0] multiplicator,
-	output [2*width-1:0] out);
-	
-	assign out = {partial_product[width-1:0],multiplicator[7:1]};
-endmodule
