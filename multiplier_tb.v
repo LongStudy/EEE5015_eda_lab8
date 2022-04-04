@@ -69,10 +69,6 @@ module tb_multi_seq();
 			else if(( A == 127 )&&( B == 127 )) begin en <= 0; i <= { 32{1'b1} }; end
 			else if( A == 127) begin A <= -128; B <= B + 1; en <= 1;addflag=1; end
 			else begin A <= A + 1; B <= B ; en <= 1;addflag=1; end
-			
-			3:
-			if( done ) begin en <= 0; i <= i + 1'b1; end
-			else begin A <= -10; B <= -100; en <= 1; end
 
 			default: begin i <= { 32{1'b1} }; $finish; end
 		endcase
